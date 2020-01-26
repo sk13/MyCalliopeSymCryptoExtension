@@ -1,0 +1,11 @@
+{
+  "name": "crypto",
+  "version": "0.6.12",
+  "description": "AdaFruit NeoPixel driver",
+  "license": "MIT",
+  "files": [
+    "main.ts"
+  ],
+  "public": true,
+  "preferredEditor": "tsprj"
+}
