@@ -1,10 +1,11 @@
 {
   "name": "Crypto",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A crypto extension.",
   "license": "MIT",
   "dependencies": {
-        "core": "*"
+    "core": "*",
+      "radio": "*"
     },
   "files": [
     "README.md",

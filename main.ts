@@ -13,6 +13,7 @@ namespace Crypto
     //% weight=1
   //% blockId=symcrypto_encrypt block="encrypts the message  %msg| with key %key"
        export function encrypt(msg: string = "", key: string = ""): string {
-        return "hello world!";
+           radio.setTransmitPower(7);
+           return "hello world!";
     }
 }
