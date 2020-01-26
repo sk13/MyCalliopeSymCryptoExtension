@@ -11,8 +11,8 @@ namespace Crypto
      * Encrypt a message with the given key.
      */
     //% weight=1
-  //% blockId=symcrypto_encrypt block="encrypt a message|Message %msg|Key %thekey"
-       export function encrypt(msg: string = "", thekey: string = ""): string {
+  //% blockId=symcrypto_encrypt block="encrypt the  %msg| with key %key"
+       export function encrypt(msg: string = "", key: string = ""): string {
         return "hello world!";
     }
 }
