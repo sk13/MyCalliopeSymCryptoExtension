@@ -12,7 +12,7 @@ namespace Crypto
      */
     //% weight=1
     //% blockId=symcrypto_encrypt block="encrypt a message %msg with key %key"
-    export function encrypt(msg: string = "",key:string=""): string {
+    export function encrypt(msg: string = "", key: string = ""): string {
         return "hello world!";
     }
 }
