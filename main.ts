@@ -24,20 +24,20 @@ namespace Crypto {
     //% weight=1
     //% blockId=symcrypto_sendmsg block="sends the message  %msg"
     export function sendMsg(msg: string = ""): void {
-       /* let buff: number[] = strToBuffer(msg);
-        let len = buff.length;
-        let index = 0;
-        while (len > 19) {
-            let b: Buffer = createBufferFromArray(buff, index, 19);
-            radio.sendBuffer(b);
-            len -= 19;
-            index += 19;
-        }
-        if (len > 0) {
-            let b: Buffer = createBufferFromArray(buff, index, len);
-            radio.sendBuffer(b);
-        }
-*/
+         let buff: number[] = strToBuffer(msg);
+         let len:number = buff.length;
+         let index:number = 0;
+        /* while (len > 19) {
+             let b: Buffer = createBufferFromArray(buff, index, 19);
+             radio.sendBuffer(b);
+             len -= 19;
+             index += 19;
+         }
+         if (len > 0) {
+             let b: Buffer = createBufferFromArray(buff, index, len);
+             radio.sendBuffer(b);
+         }
+ */
     }
 
     /*  function proccessReceivedBuffer(receivedBuffer: Buffer): void
@@ -55,14 +55,15 @@ namespace Crypto {
            onReceivedStringHandler = cb;
        }
        */
-
-    function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer {
+/*
+    function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer 
+    {
         let buf: Buffer = control.createBuffer(len);
         for (let i = 0; i < len; ++i)
             buf[i] = bytes[i + offset];
         return buf;
     }
-
+*/
     function strToBuffer(str: string): number[] {
         let utf8: number[] = [];
         for (let i = 0; i < str.length; i++) {
