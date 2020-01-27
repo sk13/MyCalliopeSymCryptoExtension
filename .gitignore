@@ -1,2 +1,7 @@
 .vs
 *.njsproj
+/extern
+/node_modules
+/obj/Debug
+/package-lock.json
+/tsconfig.json
