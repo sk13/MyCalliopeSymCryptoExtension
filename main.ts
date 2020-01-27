@@ -24,9 +24,9 @@ namespace Crypto {
     //% weight=1
     //% blockId=symcrypto_sendmsg block="sends the message  %msg"
     export function sendMsg(msg: string = ""): void {
-         let buff: number[] = strToBuffer(msg);
-         let len:number = buff.length;
-         let index:number = 0;
+        let buff: number[] = strToBuffer(msg);
+        let len: number = buff.length;
+        let index: number = 0;
         /* while (len > 19) {
              let b: Buffer = createBufferFromArray(buff, index, 19);
              radio.sendBuffer(b);
@@ -55,15 +55,15 @@ namespace Crypto {
            onReceivedStringHandler = cb;
        }
        */
-/*
-    function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer 
-    {
-        let buf: Buffer = control.createBuffer(len);
-        for (let i = 0; i < len; ++i)
-            buf[i] = bytes[i + offset];
-        return buf;
-    }
-*/
+    
+        function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer 
+        {
+            let buf: Buffer = pins.createBuffer(len);
+            for (let i = 0; i < len; ++i)
+                buf[i] = bytes[i + offset];
+            return buf;
+        }
+    
     function strToBuffer(str: string): number[] {
         let utf8: number[] = [];
         for (let i = 0; i < str.length; i++) {
