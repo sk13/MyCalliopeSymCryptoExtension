@@ -27,7 +27,7 @@ namespace Crypto {
         let buff: number[] = strToBuffer(msg);
         let len: number = buff.length;
         let index: number = 0;
-        /* while (len > 19) {
+         while (len > 19) {
              let b: Buffer = createBufferFromArray(buff, index, 19);
              radio.sendBuffer(b);
              len -= 19;
@@ -37,24 +37,24 @@ namespace Crypto {
              let b: Buffer = createBufferFromArray(buff, index, len);
              radio.sendBuffer(b);
          }
- */
+ 
     }
 
-    /*  function proccessReceivedBuffer(receivedBuffer: Buffer): void
+      function proccessReceivedBuffer(receivedBuffer: Buffer): void
       {
           onReceivedStringHandler("hello");
       }
-      */
+      
     /**
     * Registers code to run when the we receive a large string.
     */
     //% blockId=crypto_on_receive_str block="on msg received"
-    /*   export function onReceivedString(cb: (receivedString: string) => void)
+    export function onReceivedString(cb: (receivedString: string) => void)
        {
            radio.onReceivedBuffer(proccessReceivedBuffer);
            onReceivedStringHandler = cb;
        }
-       */
+       
     
         function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer 
         {
