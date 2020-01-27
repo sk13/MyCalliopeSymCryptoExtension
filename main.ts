@@ -40,6 +40,7 @@ namespace Crypto {
 
     }
 
+
     function proccessReceivedBuffer(receivedBuffer: Buffer): void {
         onReceivedStringHandler("hello");
     }
