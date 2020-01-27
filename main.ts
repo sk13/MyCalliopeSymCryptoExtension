@@ -27,43 +27,42 @@ namespace Crypto {
         let buff: number[] = strToBuffer(msg);
         let len: number = buff.length;
         let index: number = 0;
-         while (len > 19) {
-             let b: Buffer = createBufferFromArray(buff, index, 19);
-             radio.sendBuffer(b);
-             len -= 19;
-             index += 19;
-         }
-         if (len > 0) {
-             let b: Buffer = createBufferFromArray(buff, index, len);
-             radio.sendBuffer(b);
-         }
- 
+        while (len > 19) {
+            let b: Buffer = createBufferFromArray(buff, index, 19);
+            radio.sendBuffer(b);
+            len -= 19;
+            index += 19;
+        }
+        if (len > 0) {
+            let b: Buffer = createBufferFromArray(buff, index, len);
+            radio.sendBuffer(b);
+        }
+
     }
 
-      function proccessReceivedBuffer(receivedBuffer: Buffer): void
-      {
-          onReceivedStringHandler("hello");
-      }
-      
+    function proccessReceivedBuffer(receivedBuffer: Buffer): void {
+        onReceivedStringHandler("hello");
+    }
+
     /**
     * Registers code to run when the we receive a large string.
     */
-    //% blockId=crypto_on_receive_str block="on msg received"
-    export function onReceivedString(cb: (receivedString: string) => void)
-       {
-           radio.onReceivedBuffer(proccessReceivedBuffer);
-           onReceivedStringHandler = cb;
-       }
-       
-    
-        function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer 
-        {
-            let buf: Buffer = pins.createBuffer(len);
-            for (let i = 0; i < len; ++i)
-                buf[i] = bytes[i + offset];
-            return buf;
-        }
-    
+    //% blockId=crypto_on_receive_str 
+    //% block="on msg received $receivedString"
+    //% draggableParameters
+    export function onReceivedString(cb: (receivedString: string) => void) {
+        radio.onReceivedBuffer(proccessReceivedBuffer);
+        onReceivedStringHandler = cb;
+    }
+
+
+    function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer {
+        let buf: Buffer = pins.createBuffer(len);
+        for (let i = 0; i < len; ++i)
+            buf[i] = bytes[i + offset];
+        return buf;
+    }
+
     function strToBuffer(str: string): number[] {
         let utf8: number[] = [];
         for (let i = 0; i < str.length; i++) {
