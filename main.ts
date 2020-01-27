@@ -52,10 +52,10 @@ namespace Crypto {
     //% blockId=crypto_on_receive_str 
     //% block="on msg received $receivedString"
     //% draggableParameters
-    export function onReceivedString(cb: (receivedString: string) => void) {
+    /*export function onReceivedString(cb: (receivedString: string) => void) {
         //radio.onReceivedBuffer(proccessReceivedBuffer);
         onReceivedStringHandler = cb;
-    }
+    }*/
 
     function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer {
         let buf: Buffer = pins.createBuffer(len);
