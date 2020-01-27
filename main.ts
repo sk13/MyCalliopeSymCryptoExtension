@@ -57,7 +57,6 @@ namespace Crypto {
         onReceivedStringHandler = cb;
     }
 
-
     function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer {
         let buf: Buffer = pins.createBuffer(len);
         for (let i = 0; i < len; ++i)
