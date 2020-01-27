@@ -1,16 +1,16 @@
 {
-  "name": "Crypto",
-  "version": "0.0.11",
-  "description": "A crypto extension.",
-  "license": "MIT",
-  "dependencies": {
-    "core": "*",
-      "radio": "*"
+    "name": "Crypto",
+    "version": "0.0.11",
+    "description": "A crypto extension.",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*",
+        "radio": "*"
     },
-  "files": [
-    "README.md",
-    "main.ts"
-  ],
-  "public": true,
-  "preferredEditor": "tsprj"
+    "files": [
+        "README.md",
+        "main.ts"
+    ],
+    "public": true,
+    "preferredEditor": "tsprj"
 }
