@@ -44,20 +44,21 @@ namespace Crypto
         */
     }
 
-    function proccessReceivedBuffer(receivedBuffer: Buffer): void
+  /*  function proccessReceivedBuffer(receivedBuffer: Buffer): void
     {
         onReceivedStringHandler("hello");
     }
-
+    */
     /**
     * Registers code to run when the we receive a large string.
     */
     //% blockId=crypto_on_receive_str block="on msg received"
-    export function onReceivedString(cb: (receivedString: string) => void)
+ /*   export function onReceivedString(cb: (receivedString: string) => void)
     {
         radio.onReceivedBuffer(proccessReceivedBuffer);
         onReceivedStringHandler = cb;
     }
+    */
     /*
     function createBufferFromArray(bytes: number[], offset: number, len: number):Buffer
     {

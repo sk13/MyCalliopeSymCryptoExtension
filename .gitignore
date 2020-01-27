@@ -5,3 +5,5 @@
 /obj/Debug
 /package-lock.json
 /tsconfig.json
+/package.json
+/bin
