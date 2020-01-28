@@ -37,7 +37,7 @@ namespace Crypto {
         if (len > 0) 
         {
              let b: Buffer = createBufferFromArray(buff, index, len);
-             radio.sendBuffer(b);
+       //      radio.sendBuffer(b);
          }
  
     }
