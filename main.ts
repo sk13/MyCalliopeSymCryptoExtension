@@ -6,8 +6,8 @@
 //% weight=2 color=#f2c10d icon="\uf21b"
 //% advanced=true
 namespace Crypto {
-    let onReceivedStringHandler: () => void;
-    let lastMsg: string = "";
+    let onReceivedMessageHandler: (args:onReceivedMessageArguments) => void;
+    let lastMsg:string="";
     /**
         * Encrypt a message with the given key.
         */
@@ -45,17 +45,10 @@ namespace Crypto {
     }
 
 
-    /**
-            * Encrypt a message with the given key.
-            */
-    //% weight=2
-    //% blockId=symcrypto_last_msg block="get last msg"
-    export function getMsg(): string {
+   
 
-        return lastMsg;
-    }
-
-    function proccessReceivedPacket(packet: radio.Packet): void {
+    function proccessReceivedPacket(packet: radio.Packet): void 
+    {
         let s: string = packet.receivedString;
         if (s.length > 0) {
             lastMsg += s;
@@ -65,34 +58,30 @@ namespace Crypto {
         if (n > 0 && n == lastMsg.length) {
             let bytes: number[] = decodeBinary(lastMsg);
             lastMsg = UTF8toStr(bytes);
-            onReceivedStringHandler();
+            let args: onReceivedMessageArguments = { receivedMsg:lastMsg};
+            onReceivedMessageHandler(args);
             lastMsg = "";
         }
     }
 
+    export class onReceivedMessageArguments 
+    {
+        receivedMsg: string;
+    }
 
     /**
        * Registers code to run when the we receive a large string.
        */
+    //% mutate=objectdestructuring
+    //% mutateText="My Arguments"
+    //% mutateDefaults="receivedMsg"
     //% blockId=crypto_on_receive_str 
     //% block="on msg received"
     //% draggableParameters=reporter
-    export function onReceivedString(cb: () => void): void {
+    export function onReceivedMessage(cb: (args:onReceivedMessageArguments) => void): void {
         radio.onDataPacketReceived(proccessReceivedPacket);
-        onReceivedStringHandler = cb;
+        onReceivedMessageHandler = cb;
     }
-
-    export class MyArgumentClass {
-        receviedMsg: string;
-    }
-
-    //% mutate=objectdestructuring
-    //% mutateText="My Arguments"
-    //% mutateDefaults="receviedMsg"
-    //% blockId=crypto_on_r_str 
-    //% block="on msg r"
-    //% draggableParameters=reporter
-    export function addSomeEventHandler(body: (a: MyArgumentClass) => void) { };
 
     function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer {
         let buf: Buffer = pins.createBuffer(len);
