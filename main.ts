@@ -7,7 +7,7 @@
 //% advanced=true
 namespace Crypto {
     let onReceivedStringHandler: () => void;
-    let lastMsg:string="";
+    let lastMsg: string = "";
     /**
         * Encrypt a message with the given key.
         */
@@ -26,11 +26,11 @@ namespace Crypto {
     //% blockId=symcrypto_sendmsg block="sends the message  %msg"
     export function sendMsg(msg: string = ""): void {
         let utf8: number[] = strToUTF8(msg);
-        let strEncoded:string=encodeBinary(utf8);
-        let len:number=strEncoded.length;
+        let strEncoded: string = encodeBinary(utf8);
+        let len: number = strEncoded.length;
         let index: number = 0;
         while (len > 10) {
-            let s: string =strEncoded.substr(index,10);
+            let s: string = strEncoded.substr(index, 10);
             radio.sendString(s);
             len -= 10;
             index += 10;
@@ -40,6 +40,7 @@ namespace Crypto {
             let s: string = strEncoded.substr(index);
             radio.sendString(s);
         }
+        radio.sendNumber(strEncoded.length); //end of message
 
     }
 
@@ -49,16 +50,25 @@ namespace Crypto {
             */
     //% weight=2
     //% blockId=symcrypto_last_msg block="get last msg"
-    export function getMsg(): string 
-    {
+    export function getMsg(): string {
 
         return lastMsg;
     }
 
     function proccessReceivedPacket(packet: radio.Packet): void 
     {
-       lastMsg=packet.receivedString;
-       onReceivedStringHandler();
+        let s: string = packet.receivedString;
+        if(s.length>0)
+            {
+                lastMsg+=s;
+                return;
+            }
+        let n:number=packet.receivedNumber;
+        if(n>0&&n==lastMsg.length)
+            {    
+                onReceivedStringHandler();
+                lastMsg="";
+            }
     }
 
 
@@ -70,7 +80,7 @@ namespace Crypto {
     //% draggableParameters=reporter
     export function onReceivedString(cb: () => void): void {
         radio.onDataPacketReceived(proccessReceivedPacket);
-         onReceivedStringHandler = cb;
+        onReceivedStringHandler = cb;
     }
 
     function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer {
@@ -80,13 +90,11 @@ namespace Crypto {
         return buf;
     }
 
-    function encodeBinary(bytes: number[]): string
-    {
-        let s:string="";
-        let i:number=0;
-        for(i=0;i<bytes.length;i++)
-        {
-            s+=String.fromCharCode(bytes[i]);
+    function encodeBinary(bytes: number[]): string {
+        let s: string = "";
+        let i: number = 0;
+        for (i = 0; i < bytes.length; i++) {
+            s += String.fromCharCode(bytes[i]);
         }
         return s;
     }
