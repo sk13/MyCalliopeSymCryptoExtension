@@ -51,11 +51,11 @@ namespace Crypto {
     * Registers code to run when the we receive a large string.
     */
     //% blockId=crypto_on_receive_str 
-    //% block="on msg received $receivedString"
-    //% draggableParameters
-    export function onReceivedString(cb: (receivedString: string) => void) {
+    //% block="on msg received"
+    //% draggableParameters = reporter
+    export function onReceivedString(body: () => void):void {
         //radio.onReceivedBuffer(proccessReceivedBuffer);
-        onReceivedStringHandler = cb;
+       // onReceivedStringHandler = cb;
     }
 
     function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer {
