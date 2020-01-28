@@ -51,8 +51,8 @@ namespace Crypto {
        */
     //% blockId=crypto_on_receive_str 
     //% block="on msg received"
-    //% draggableParameters = reporter
-    export function onReceivedString(body: (msg: string) => void): void {
+    //% draggableParameters=reporter
+    export function onReceivedString(cb: (receivedString: string) => void): void {
         //radio.onReceivedBuffer(proccessReceivedBuffer);
         // onReceivedStringHandler = cb;
     }
