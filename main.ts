@@ -27,19 +27,23 @@ namespace Crypto {
         let buff: number[] = strToBuffer(msg);
         let len: number = buff.length;
         let index: number = 0;
-       /* while (len > 19) {
-            let b: Buffer = createBufferFromArray(buff, index, 19);
-            radio.sendBuffer(b);
-            len -= 19;
-            index += 19;
-        }
-        if (len > 0) {
-            let b: Buffer = createBufferFromArray(buff, index, len);
-            radio.sendBuffer(b);
-        }
-*/
+        /* while (len > 19) {
+             let b: Buffer = createBufferFromArray(buff, index, 19);
+             radio.sendBuffer(b);
+             len -= 19;
+             index += 19;
+         }
+         if (len > 0) {
+             let b: Buffer = createBufferFromArray(buff, index, len);
+             radio.sendBuffer(b);
+         }
+ */
     }
 
+    function proccessReceivedBuffer(receivedBuffer: Buffer): void 
+    {
+        onReceivedStringHandler("hello");
+    }
 
 
     function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer {
