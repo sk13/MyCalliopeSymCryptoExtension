@@ -24,26 +24,25 @@ namespace Crypto {
     //% weight=1
     //% blockId=symcrypto_sendmsg block="sends the message  %msg"
     export function sendMsg(msg: string = ""): void {
-        let buff: number[] = strToBuffer(msg);
-        let len: number = buff.length;
+        let utf8: number[] = strToUTF8(msg);
+        let strEncoded:string=encodeBinary(utf8);
+        let len:number=strEncoded.length;
         let index: number = 0;
-        while (len > 19) {
-            let b: Buffer = createBufferFromArray(buff, index, 19);
-            //            radio.sendBuffer(b);
-            radio.sendString("hello");
-            len -= 19;
-            index += 19;
+        while (len > 10) {
+            let s: string =strEncoded.substr(index,10);
+            radio.sendString(s);
+            len -= 10;
+            index += 10;
         }
 
         if (len > 0) {
-            let b: Buffer = createBufferFromArray(buff, index, len);
-            //      radio.sendBuffer(b);
+            let s: string = strEncoded.substr(index);
+            radio.sendString(s);
         }
 
     }
 
-    function proccessReceivedPacket(packet: radio.Packet): void 
-    {
+    function proccessReceivedPacket(packet: radio.Packet): void {
         onReceivedStringHandler("hello");
     }
 
@@ -54,8 +53,7 @@ namespace Crypto {
     //% blockId=crypto_on_receive_str 
     //% block="on msg received"
     //% draggableParameters=reporter
-    export function onReceivedString(cb: () => void): void
-     {
+    export function onReceivedString(cb: () => void): void {
         radio.onDataPacketReceived(proccessReceivedPacket);
 
 
@@ -70,7 +68,18 @@ namespace Crypto {
         return buf;
     }
 
-    function strToBuffer(str: string): number[] {
+    function encodeBinary(bytes: number[]): string
+    {
+        let s:string="";
+        let i:number;
+        for(i=0;i<bytes.length;i++)
+        {
+            s+=String.fromCharCode(bytes[i]);
+        }
+        return s;
+    }
+
+    function strToUTF8(str: string): number[] {
         let utf8: number[] = [];
         for (let i = 0; i < str.length; i++) {
             let charcode = str.charCodeAt(i);
