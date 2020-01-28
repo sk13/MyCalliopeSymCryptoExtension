@@ -50,18 +50,23 @@ namespace Crypto {
     function proccessReceivedPacket(packet: radio.Packet): void 
     {
         let s: string = packet.receivedString;
-        if (s.length > 0) {
+        if (s.length > 0) 
+        {
             lastMsg += s;
             return;
         }
         let n: number = packet.receivedNumber;
-        if (n > 0 && n == lastMsg.length) {
-            let bytes: number[] = decodeBinary(lastMsg);
-            lastMsg = UTF8toStr(bytes);
-            let args: onReceivedMessageArguments = { receivedMsg:lastMsg};
-            onReceivedMessageHandler(args);
-            lastMsg = "";
-        }
+        if (n > 0)
+            { 
+                if( n == lastMsg.length) 
+                {
+                    let bytes: number[] = decodeBinary(lastMsg);
+                    lastMsg = UTF8toStr(bytes);
+                    let args: onReceivedMessageArguments = { receivedMsg:lastMsg};
+                    onReceivedMessageHandler(args);
+                }
+                lastMsg = "";
+            }
     }
 
     export class onReceivedMessageArguments 
