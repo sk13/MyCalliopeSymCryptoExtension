@@ -47,7 +47,7 @@ namespace Crypto {
     /**
             * Encrypt a message with the given key.
             */
-    //% weight=1
+    //% weight=2
     //% blockId=symcrypto_last_msg block="get last msg"
     export function getMsg(): string 
     {
@@ -57,8 +57,8 @@ namespace Crypto {
 
     function proccessReceivedPacket(packet: radio.Packet): void 
     {
-        lastMsg=packet.receivedString();
-        onReceivedStringHandler();
+       // lastMsg=packet.receivedString();
+       // onReceivedStringHandler();
     }
 
 
@@ -70,9 +70,6 @@ namespace Crypto {
     //% draggableParameters=reporter
     export function onReceivedString(cb: () => void): void {
         radio.onDataPacketReceived(proccessReceivedPacket);
-
-
-        //radio.onReceivedBuffer(proccessReceivedBuffer);
         // onReceivedStringHandler = cb;
     }
 
@@ -86,7 +83,7 @@ namespace Crypto {
     function encodeBinary(bytes: number[]): string
     {
         let s:string="";
-        let i:number;
+        let i:number=0;
         for(i=0;i<bytes.length;i++)
         {
             s+=String.fromCharCode(bytes[i]);
