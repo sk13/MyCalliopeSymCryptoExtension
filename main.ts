@@ -82,6 +82,19 @@ namespace Crypto {
         onReceivedStringHandler = cb;
     }
 
+    export class MyArgumentClass {
+        argumentA: number;
+        argumentB: string;
+    }
+
+    //% mutate=objectdestructuring
+    //% mutateText="My Arguments"
+    //% mutateDefaults="argumentA;argumentA,argumentB"
+    //% blockId=crypto_on_r_str 
+    //% block="on msg r"
+    //% draggableParameters=reporter
+    export function addSomeEventHandler(body:(a: MyArgumentClass) => void) { };
+
     function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer {
         let buf: Buffer = pins.createBuffer(len);
         for (let i = 0; i < len; ++i)
