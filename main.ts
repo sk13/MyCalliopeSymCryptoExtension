@@ -70,16 +70,16 @@ namespace Crypto {
     }
 
     /**
-       * Registers code to run when the we receive a large string.
+       * Registers code to run when we received a large string.
        */
     //% mutate=objectdestructuring
     //% mutateText="My Arguments"
     //% mutateDefaults="receivedMsg"
     //% blockId=crypto_on_receive_str 
     //% block="on msg received"
-    //% draggableParameters=reporter
+    // draggableParameters=reporter
     export function onReceivedMessage(cb: (args:onReceivedMessageArguments) => void): void {
-        radio.onDataPacketReceived(proccessReceivedPacket);
+        //radio.onDataPacketReceived(proccessReceivedPacket);
         onReceivedMessageHandler = cb;
     }
 
