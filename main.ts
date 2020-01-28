@@ -33,15 +33,16 @@ namespace Crypto {
              len -= 19;
              index += 19;
          }
-         if (len > 0) {
+ */
+        if (len > 0) 
+        {
              let b: Buffer = createBufferFromArray(buff, index, len);
              radio.sendBuffer(b);
          }
- */
+ 
     }
 
-    function proccessReceivedBuffer(receivedBuffer: Buffer): void 
-    {
+    function proccessReceivedBuffer(receivedBuffer: Buffer): void {
         onReceivedStringHandler("hello");
     }
 
