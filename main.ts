@@ -58,13 +58,13 @@ namespace Crypto {
         let n: number = packet.receivedNumber;
         if (n > 0)
             { 
-                if( n == lastMsg.length) 
+               /* if( n == lastMsg.length) 
                 {
                     let bytes: number[] = decodeBinary(lastMsg);
                     lastMsg = UTF8toStr(bytes);
                     let args: onReceivedMessageArguments = { receivedMsg:lastMsg};
                     onReceivedMessageHandler(args);
-                }
+                }*/
                 lastMsg = "";
             }
     }
@@ -84,7 +84,7 @@ namespace Crypto {
     //% block="on msg received"
     // draggableParameters=reporter
     export function onReceivedMessage(cb: (args:onReceivedMessageArguments) => void): void {
-        //radio.onDataPacketReceived(proccessReceivedPacket);
+        radio.onDataPacketReceived(proccessReceivedPacket);
         onReceivedMessageHandler = cb;
     }
 
