@@ -57,8 +57,8 @@ namespace Crypto {
 
     function proccessReceivedPacket(packet: radio.Packet): void 
     {
-       // lastMsg=packet.receivedString();
-       // onReceivedStringHandler();
+       lastMsg=packet.receivedString;
+       onReceivedStringHandler();
     }
 
 
@@ -70,7 +70,7 @@ namespace Crypto {
     //% draggableParameters=reporter
     export function onReceivedString(cb: () => void): void {
         radio.onDataPacketReceived(proccessReceivedPacket);
-        // onReceivedStringHandler = cb;
+         onReceivedStringHandler = cb;
     }
 
     function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer {
