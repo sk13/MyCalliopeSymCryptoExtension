@@ -30,6 +30,7 @@ namespace Crypto {
         while (len > 19) {
             let b: Buffer = createBufferFromArray(buff, index, 19);
             //            radio.sendBuffer(b);
+            radio.sendString("hello");
             len -= 19;
             index += 19;
         }
@@ -53,7 +54,7 @@ namespace Crypto {
     //% block="on msg received"
     //% draggableParameters=reporter
     export function onReceivedString(cb: () => void): void {
-        radio.onReceivedBuffer(proccessReceivedBuffer);
+        //radio.onReceivedBuffer(proccessReceivedBuffer);
         // onReceivedStringHandler = cb;
     }
 
