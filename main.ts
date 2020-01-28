@@ -122,7 +122,7 @@ function UTF8toStr(bytes:number[]):string
     let i:number=0;
     let b1:number;
     let b2:number;
-    while(len>0)
+    while(i<len)
     {
         b1=bytes[i++];
         if(b1<0x80)
