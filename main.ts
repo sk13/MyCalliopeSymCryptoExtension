@@ -42,7 +42,8 @@ namespace Crypto {
 
     }
 
-    function proccessReceivedBuffer(receivedBuffer: Buffer): void {
+    function proccessReceivedPacket(packet: radio.Packet): void 
+    {
         onReceivedStringHandler("hello");
     }
 
@@ -53,7 +54,11 @@ namespace Crypto {
     //% blockId=crypto_on_receive_str 
     //% block="on msg received"
     //% draggableParameters=reporter
-    export function onReceivedString(cb: () => void): void {
+    export function onReceivedString(cb: () => void): void
+     {
+        radio.onDataPacketReceived(proccessReceivedPacket);
+
+
         //radio.onReceivedBuffer(proccessReceivedBuffer);
         // onReceivedStringHandler = cb;
     }
