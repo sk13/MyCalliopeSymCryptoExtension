@@ -6,7 +6,8 @@
 //% weight=2 color=#f2c10d icon="\uf0ec"
 //% advanced=true
 namespace Crypto {
-    let onReceivedStringHandler: (receivedString: string) => void;
+    let onReceivedStringHandler: () => void;
+    let lastMsg:string="";
     /**
         * Encrypt a message with the given key.
         */
@@ -42,8 +43,22 @@ namespace Crypto {
 
     }
 
-    function proccessReceivedPacket(packet: radio.Packet): void {
-        onReceivedStringHandler("hello");
+
+    /**
+            * Encrypt a message with the given key.
+            */
+    //% weight=1
+    //% blockId=symcrypto_last_msg block="get last msg"
+    export function getMsg(): string 
+    {
+
+        return lastMsg;
+    }
+
+    function proccessReceivedPacket(packet: radio.Packet): void 
+    {
+        lastMsg=packet.receivedString();
+        onReceivedStringHandler();
     }
 
 
