@@ -18,7 +18,7 @@ namespace Crypto {
         let inp: number[] = strToUTF8(msg);
         let keyb: number[] = strToUTF8(key);
         let keylen = keyb.length;
-        let outp:number[]=[];
+        let outp: number[] = [];
         //let outstr: string = "";
         let i: number;
 
@@ -26,8 +26,8 @@ namespace Crypto {
             let c: number;
             c = inp[i] + keyb[i % keylen];
             c %= 256;
-            outp[i]=c;
-//            outstr += String.fromCharCode(c);
+            outp[i] = c;
+            //            outstr += String.fromCharCode(c);
         }
         return outp;
     }
@@ -37,8 +37,7 @@ namespace Crypto {
          */
     //% weight=2
     //% blockId=symcrypto_decrypt block="decrypts the ciphertext  %c| with key %key"
-    export function decrypt(c: number[], key: string = ""): string
-     {
+    export function decrypt(c: number[], key: string = ""): string {
         let keyb: number[] = strToUTF8(key);
         let keylen = keyb.length;
         let outp: number[] = [];
@@ -87,9 +86,8 @@ namespace Crypto {
      */
     //% weight=2
     //% blockId=symcrypto_sendbytes block="sends the message  %msg"
-    export function sendBytes(bytes: number[]): void 
-    {
-        let strEncoded: string = String.fromCharCode(0)+encodeBinary(bytes);
+    export function sendBytes(bytes: number[]): void {
+        let strEncoded: string = String.fromCharCode(0) + encodeBinary(bytes);
         let len: number = strEncoded.length;
         let index: number = 0;
         while (len > 10) {
@@ -116,30 +114,26 @@ namespace Crypto {
             return;
         }
         let n: number = packet.receivedNumber;
-        if (n > 0) 
-        {
-            if (n == lastMsg.length) 
-            {
+        if (n > 0) {
+            if (n == lastMsg.length) {
                 let bytes: number[] = decodeBinary(lastMsg);
                 let args: onReceivedMessageArguments = new onReceivedMessageArguments;
-                if(bytes[0]!=0) //it is a string
-                    {
-                        lastMsg = UTF8toStr(bytes);
-                        args.receivedMsg = lastMsg;
-                        if (onReceivedMessageHandler) 
-                        {
-                            onReceivedMessageHandler(args);
-                        }
+                if (bytes[0] != 0) //it is a string
+                {
+                    lastMsg = UTF8toStr(bytes);
+                    args.receivedMsg = lastMsg;
+                    if (onReceivedMessageHandler) {
+                        onReceivedMessageHandler(args);
                     }
+                }
                 else //they are bytes
                 {
                     bytes.shift();
-                    args.receivedBytes= bytes;
-                    if (onReceivedBytesHandler) 
-                    {
+                    args.receivedBytes = bytes;
+                    if (onReceivedBytesHandler) {
                         onReceivedBytesHandler(args);
                     }
-                }    
+                }
             }
             lastMsg = "";
         }
@@ -231,11 +225,9 @@ namespace Crypto {
         return str;
     }
 
-    function strToUTF8(str: string): number[] 
-    {
+    function strToUTF8(str: string): number[] {
         let utf8: number[] = [];
-        for (let i = 0; i < str.length; i++) 
-        {
+        for (let i = 0; i < str.length; i++) {
             let charcode = str.charCodeAt(i);
             if (charcode < 0x80) utf8.push(charcode);
             else if (charcode < 0x800) {
@@ -259,4 +251,5 @@ namespace Crypto {
         }
         return utf8;
     }
+    
 }
