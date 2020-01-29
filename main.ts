@@ -89,21 +89,21 @@ namespace Crypto {
         return outstr;
     }
 
-    function internal_sendBytes(bytes: number[], typeisstring: boolean) {
-        let strEncoded: string = encodeBinary(bytes);
-        let len: number = strEncoded.length;
+    function internal_sendString(str: String, typeisstring: boolean) 
+    {
+        let len: number = str.length;
         let index: number = 0;
         while (len > 10) {
-            let s: string = strEncoded.substr(index, 10);
+            let s: string = str.substr(index, 10);
             radio.sendString(s);
             len -= 10;
             index += 10;
         }
         if (len > 0) {
-            let s: string = strEncoded.substr(index);
+            let s: string = str.substr(index);
             radio.sendString(s);
         }
-        len = strEncoded.length;
+        len = str.length;
         if (typeisstring == false) {
             len += 10000;
         }
@@ -116,9 +116,8 @@ namespace Crypto {
         */
     //% weight=1
     //% blockId=symcrypto_sendmsg block="sends the message  %msg"
-    export function sendMsg(msg: string = ""): void {
-        let utf8: number[] = strToUTF8(msg);
-        internal_sendBytes(utf8, true);
+    export function sendMsg(msg: string = ""): void {       
+        internal_sendString(msg, true);
     }
 
     /**
@@ -127,7 +126,8 @@ namespace Crypto {
     //% weight=2
     //% blockId=symcrypto_sendbytes block="sends the message  %msg"
     export function sendBytes(bytes: number[]): void {
-        internal_sendBytes(bytes, false);
+        let strEncoded: string = encodeBinary(bytes);
+        internal_sendString(strEncoded, false);
     }
 
 
@@ -135,6 +135,10 @@ namespace Crypto {
 
     function proccessReceivedPacket(packet: radio.Packet): void {
         let sender: number = packet.serial;
+        if(sender==0)//no sender given --> ignore...
+        {
+            return;
+        }
         let s: string = packet.receivedString;
         let sm: KeyValue = receivedMessages.getKeyValue(sender);
         if (!sm) {
