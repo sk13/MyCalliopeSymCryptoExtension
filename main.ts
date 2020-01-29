@@ -115,24 +115,28 @@ namespace Crypto {
             return;
         }
         let n: number = packet.receivedNumber;
-        if (n > 0) {
-            if (n == lastMsg.length) {
+        if (n > 0) 
+        {
+            if (n == lastMsg.length) 
+            {
                 let bytes: number[] = decodeBinary(lastMsg);
                 let args: onReceivedMessageArguments = new onReceivedMessageArguments;
                 if(bytes[0]!=0) //it is a string
                     {
                         lastMsg = UTF8toStr(bytes);
                         args.receivedMsg = lastMsg;
-                        if (onReceivedMessageHandler) {
+                        if (onReceivedMessageHandler) 
+                        {
                             onReceivedMessageHandler(args);
                         }
                     }
                 else //they are bytes
                 {
                     args.receivedBytes= bytes;
-                    if (onReceivedBytesHandler) {
+                    if (onReceivedBytesHandler) 
+                    {
                         onReceivedBytesHandler(args);
-
+                    }
                 }    
             }
             lastMsg = "";
@@ -225,9 +229,11 @@ namespace Crypto {
         return str;
     }
 
-    function strToUTF8(str: string): number[] {
+    function strToUTF8(str: string): number[] 
+    {
         let utf8: number[] = [];
-        for (let i = 0; i < str.length; i++) {
+        for (let i = 0; i < str.length; i++) 
+        {
             let charcode = str.charCodeAt(i);
             if (charcode < 0x80) utf8.push(charcode);
             else if (charcode < 0x800) {
