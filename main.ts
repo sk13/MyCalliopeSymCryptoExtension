@@ -55,27 +55,27 @@ namespace Crypto {
         return outstr;
     }
 
-    function internal_sendBytes(bytes:number[],typeisstring:boolean)
+    function internal_sendBytes(bytes: number[], typeisstring: boolean) 
     {
         let strEncoded: string = encodeBinary(bytes);
-        if (!typeisstring)
-            strEncoded = String.fromCharCode(0) + strEncoded;
+        if (typeisstring==false)
+            {
+                strEncoded = String.fromCharCode(0) + strEncoded;
+            }
         let len: number = strEncoded.length;
         let index: number = 0;
-        while (len > 10) 
-        {
+        while (len > 10) {
             let s: string = strEncoded.substr(index, 10);
             radio.sendString(s);
             len -= 10;
             index += 10;
         }
-        if (len > 0) 
-        {
+        if (len > 0) {
             let s: string = strEncoded.substr(index);
             radio.sendString(s);
         }
         radio.sendNumber(strEncoded.length); //end of message
-      }
+    }
 
     /**
         * Send a large message (up to 2413 bytes).
@@ -86,7 +86,7 @@ namespace Crypto {
         let utf8: number[] = strToUTF8(msg);
         internal_sendBytes(utf8, true);
     }
-    
+
     /**
      * Send some bytes (up to 2413 bytes).
      */
