@@ -55,17 +55,6 @@ namespace Crypto {
         return outstr;
     }
 
-
-    /**
-     * Send a large message (up to 2413 bytes).
-     */
-    //% weight=1
-    //% blockId=symcrypto_sendmsg block="sends the message  %msg"
-    export function sendMsg(msg: string = ""): void {
-        let utf8: number[] = strToUTF8(msg);
-        internal_sendBytes(utf8,true);
-    }
-
     function internal_sendBytes(bytes:number[],typeisstring:boolean)
     {
         let strEncoded: string = encodeBinary(bytes);
@@ -87,6 +76,17 @@ namespace Crypto {
         }
         radio.sendNumber(strEncoded.length); //end of message
       }
+
+    /**
+        * Send a large message (up to 2413 bytes).
+        */
+    //% weight=1
+    //% blockId=symcrypto_sendmsg block="sends the message  %msg"
+    export function sendMsg(msg: string = ""): void {
+        let utf8: number[] = strToUTF8(msg);
+        internal_sendBytes(utf8, true);
+    }
+    
     /**
      * Send some bytes (up to 2413 bytes).
      */
@@ -94,7 +94,7 @@ namespace Crypto {
     //% blockId=symcrypto_sendbytes block="sends the message  %msg"
     export function sendBytes(bytes: number[]): void 
     {
-        internal_sendBytes([], false)
+        internal_sendBytes(bytes, false);
     }
 
 
