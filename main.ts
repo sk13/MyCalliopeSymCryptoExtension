@@ -47,7 +47,7 @@ namespace Crypto {
             for (i = 0; i < c.length; i++) {
                 let cc: number=c.charCodeAt(i);
                 let p:number;
-                p = cc - keyb[i % keylen];
+                p = cc - keyb[i % keylen] + 256; //ensure p>0;
                 p %= 256;
                 outstr += String.fromCharCode(p);
             }
@@ -106,6 +106,7 @@ namespace Crypto {
 
     export class onReceivedMessageArguments {
         receivedMsg: string;
+        receivedBytes:number[];
     }
 
     /**
@@ -121,6 +122,21 @@ namespace Crypto {
         radio.onDataPacketReceived(proccessReceivedPacket);
         onReceivedMessageHandler = cb;
     }
+
+    /**
+       * Registers code to run when we received bytes.
+       */
+    //% mutate=objectdestructuring
+    //% mutateText="My Arguments"
+    //% mutateDefaults="receivedBytes"
+    //% blockId=crypto_on_receive_bytes
+    //% block="on msg received"
+    // draggableParameters=reporter
+    export function onReceivedBytes(cb: (args: onReceivedMessageArguments) => void): void {
+        radio.onDataPacketReceived(proccessReceivedPacket);
+        onReceivedMessageHandler = cb;
+    }
+
 
     function createBufferFromArray(bytes: number[], offset: number, len: number): Buffer {
         let buf: Buffer = pins.createBuffer(len);
