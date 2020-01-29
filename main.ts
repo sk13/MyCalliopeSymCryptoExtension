@@ -78,7 +78,6 @@ namespace Crypto {
             radio.sendString(s);
         }
         radio.sendNumber(strEncoded.length); //end of message
-
     }
 
     /**
