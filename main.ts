@@ -185,18 +185,34 @@ namespace Crypto {
     function encodeBinary(bytes: number[]): string {
         let s: string = "";
         let i: number = 0;
-        for (i = 0; i < bytes.length; i++) {
-            s += String.fromCharCode(bytes[i]);
+        for (i = 0; i < bytes.length; i++) 
+        {
+            let b:number=bytes[i]
+            if(b<2 )
+            { // encode 0 --> 1 1 ; 1 --> 1 2
+                s += String.fromCharCode(1);
+                s += String.fromCharCode(b+1);
+            }
+            else
+            {
+                s += String.fromCharCode(bytes[i]);
+            }
         }
         return s;
     }
 
-    function decodeBinary(str: string): number[] {
+    function decodeBinary(str: string): number[] 
+    {
         let s: string = "";
         let i: number = 0;
         let bytes: number[] = [];
-        for (i = 0; i < str.length; i++) {
-            let b: number = str.charCodeAt(i);
+        while (i < str.length) 
+        {
+            let b: number = str.charCodeAt(i++);
+            if(b==1)
+            {
+                b = str.charCodeAt(i++)-1;
+            }
             bytes.push(b);
         }
         return bytes;
