@@ -15,15 +15,15 @@ namespace Crypto {
 
     class KeyValueStore {
         m_Store: Array<KeyValue>
-        constructor()
-        {
-            this.m_Store= [];
+        constructor() {
+            this.m_Store = [];
         }
-        put(key: number, value: string): void {
+        put(key: number, value: string): KeyValue {
             let kv = new KeyValue;
             kv.key = key;
             kv.value = value;
             this.m_Store.push(kv);
+            return kv;
         }
 
         getKeyValue(key: number): KeyValue {
@@ -42,7 +42,7 @@ namespace Crypto {
 
     let onReceivedMessageHandler: (args: onReceivedMessageArguments) => void;
     let onReceivedBytesHandler: (args: onReceivedMessageArguments) => void;
-    let receivedMessages:KeyValueStore=new KeyValueStore();
+    let receivedMessages: KeyValueStore = new KeyValueStore();
     /**
         * Encrypt a message with the given key.
         */
@@ -136,10 +136,9 @@ namespace Crypto {
     function proccessReceivedPacket(packet: radio.Packet): void {
         let sender: number = packet.serial;
         let s: string = packet.receivedString;
-        let sm:KeyValue=receivedMessages.getKeyValue(sender);
-        if(!sm)
-        {
-            receivedMessages.put(sender,"");
+        let sm: KeyValue = receivedMessages.getKeyValue(sender);
+        if (!sm) {
+            sm=receivedMessages.put(sender, "");
         }
         if (s.length > 0) {
             sm.value += s;
@@ -298,6 +297,6 @@ namespace Crypto {
         return utf8;
     }
 
- 
+
 
 }
