@@ -64,7 +64,7 @@ namespace Crypto {
                 args.receivedMsg = lastMsg;
                 if (onReceivedMessageHandler) 
                 {
-                    //   onReceivedMessageHandler(args);
+                    onReceivedMessageHandler(args);
                 }
             }
             lastMsg = "";
