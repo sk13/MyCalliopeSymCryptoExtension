@@ -63,44 +63,38 @@ namespace Crypto {
     //% blockId=symcrypto_sendmsg block="sends the message  %msg"
     export function sendMsg(msg: string = ""): void {
         let utf8: number[] = strToUTF8(msg);
-        let strEncoded: string = encodeBinary(utf8);
+        internal_sendBytes(utf8,true);
+    }
+
+    function internal_sendBytes(bytes:number[],typeisstring:boolean)
+    {
+        let strEncoded: string = encodeBinary(bytes);
+        if (!typeisstring)
+            strEncoded = String.fromCharCode(0) + strEncoded;
         let len: number = strEncoded.length;
         let index: number = 0;
-        while (len > 10) {
+        while (len > 10) 
+        {
             let s: string = strEncoded.substr(index, 10);
             radio.sendString(s);
             len -= 10;
             index += 10;
         }
-
-        if (len > 0) {
+        if (len > 0) 
+        {
             let s: string = strEncoded.substr(index);
             radio.sendString(s);
         }
         radio.sendNumber(strEncoded.length); //end of message
-    }
-
+      }
     /**
      * Send some bytes (up to 2413 bytes).
      */
     //% weight=2
     //% blockId=symcrypto_sendbytes block="sends the message  %msg"
-    export function sendBytes(bytes: number[]): void {
-        let strEncoded: string = String.fromCharCode(0) + encodeBinary(bytes);
-        let len: number = strEncoded.length;
-        let index: number = 0;
-        while (len > 10) {
-            let s: string = strEncoded.substr(index, 10);
-            radio.sendString(s);
-            len -= 10;
-            index += 10;
-        }
-
-        if (len > 0) {
-            let s: string = strEncoded.substr(index);
-            radio.sendString(s);
-        }
-        radio.sendNumber(strEncoded.length); //end of message
+    export function sendBytes(bytes: number[]): void 
+    {
+        internal_sendBytes([], false)
     }
 
 
