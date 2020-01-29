@@ -87,7 +87,8 @@ namespace Crypto {
      */
     //% weight=2
     //% blockId=symcrypto_sendbytes block="sends the message  %msg"
-    export function sendBytes(bytes: number[]): void {
+    export function sendBytes(bytes: number[]): void 
+    {
         let strEncoded: string = String.fromCharCode(0)+encodeBinary(bytes);
         let len: number = strEncoded.length;
         let index: number = 0;
@@ -132,6 +133,7 @@ namespace Crypto {
                     }
                 else //they are bytes
                 {
+                    bytes.shift();
                     args.receivedBytes= bytes;
                     if (onReceivedBytesHandler) 
                     {
