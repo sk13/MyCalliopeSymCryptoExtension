@@ -58,13 +58,16 @@ namespace Crypto {
         let n: number = packet.receivedNumber;
         if (n > 0)
             { 
-               /* if( n == lastMsg.length) 
+                if( n == lastMsg.length) 
                 {
                     let bytes: number[] = decodeBinary(lastMsg);
                     lastMsg = UTF8toStr(bytes);
                     let args: onReceivedMessageArguments = { receivedMsg:lastMsg};
-                    onReceivedMessageHandler(args);
-                }*/
+                    if(onReceivedMessageHandler)
+                    {
+                 //   onReceivedMessageHandler(args);
+                    }
+                }
                 lastMsg = "";
             }
     }
