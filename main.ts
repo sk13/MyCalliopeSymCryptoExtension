@@ -13,46 +13,44 @@ namespace Crypto {
         */
     //% weight=1
     //% blockId=symcrypto_encrypt block="encrypts the message  %msg| with key %key"
-    export function encrypt(msg: string = "", key: string = ""): string 
-    {
-        let inp:number[]=strToUTF8(msg);
+    export function encrypt(msg: string = "", key: string = ""): string {
+        let inp: number[] = strToUTF8(msg);
         let keyb: number[] = strToUTF8(key);
-        let keylen=keyb.length;
-//        let outp:number[]=[];
-        let outstr:string="";
-        let i:number;
+        let keylen = keyb.length;
+        //        let outp:number[]=[];
+        let outstr: string = "";
+        let i: number;
 
-        for(i=0;i<inp.length;i++)
-        {
-            let c:number;
-            c=inp[i]+keyb[i%keylen];
-            c%=256;
-            outstr+=String.fromCharCode(c);
+        for (i = 0; i < inp.length; i++) {
+            let c: number;
+            c = inp[i] + keyb[i % keylen];
+            c %= 256;
+            outstr += String.fromCharCode(c);
         }
         return outstr;
     }
 
-        /**
-             * Decrypt a ciphertext with the given key.
-             */
-        //% weight=2
-        //% blockId=symcrypto_decrypt block="decrypts the ciphertext  %c| with key %key"
-        export function decrypt(c: string = "", key: string = ""): string {
-            let keyb: number[] = strToUTF8(key);
-            let keylen = keyb.length;
-            let outp:number[]=[];
-            let outstr: string = "";
-            let i: number;
+    /**
+         * Decrypt a ciphertext with the given key.
+         */
+    //% weight=2
+    //% blockId=symcrypto_decrypt block="decrypts the ciphertext  %c| with key %key"
+    export function decrypt(c: string = "", key: string = ""): string {
+        let keyb: number[] = strToUTF8(key);
+        let keylen = keyb.length;
+        let outp: number[] = [];
+        let outstr: string = "";
+        let i: number;
 
-            for (i = 0; i < c.length; i++) {
-                let cc: number=c.charCodeAt(i);
-                let p:number;
-                p = cc - keyb[i % keylen] + 256; //ensure p>0;
-                p %= 256;
-                outp.push(p);
-            }
-            outstr=UTF8toStr(outp);
-            return outstr;
+        for (i = 0; i < c.length; i++) {
+            let cc: number = c.charCodeAt(i);
+            let p: number;
+            p = cc - keyb[i % keylen] + 256; //ensure p>0;
+            p %= 256;
+            outp.push(p);
+        }
+        outstr = UTF8toStr(outp);
+        return outstr;
     }
 
 
@@ -107,7 +105,7 @@ namespace Crypto {
 
     export class onReceivedMessageArguments {
         receivedMsg: string;
-        receivedBytes:number[];
+        receivedBytes: number[];
     }
 
     /**
@@ -184,7 +182,7 @@ namespace Crypto {
                 code <<= 6;
                 b2 -= 0x80;
                 code += b2;
-                str += String.fromCharCode(b2);
+                str += String.fromCharCode(code);
             }
 
         }
