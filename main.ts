@@ -14,7 +14,7 @@ namespace Crypto {
         */
     //% weight=1
     //% blockId=symcrypto_encrypt block="encrypts the message  %msg| with key %key"
-    export function encrypt(msg: string = "", key: string = ""): numbers[] {
+    export function encrypt(msg: string = "", key: string = ""): number[] {
         let inp: number[] = strToUTF8(msg);
         let keyb: number[] = strToUTF8(key);
         let keylen = keyb.length;
