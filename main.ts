@@ -8,7 +8,7 @@
 namespace Crypto {
     let onReceivedMessageHandler: (args: onReceivedMessageArguments) => void;
     let onReceivedBytesHandler: (args: onReceivedMessageArguments) => void;
-    let lastMsg: string = "";
+    let receivedMessages:Array<SenderAndMessage> =[];
     /**
         * Encrypt a message with the given key.
         */
@@ -55,8 +55,7 @@ namespace Crypto {
         return outstr;
     }
 
-    function internal_sendBytes(bytes: number[], typeisstring: boolean) 
-    {
+    function internal_sendBytes(bytes: number[], typeisstring: boolean) {
         let strEncoded: string = encodeBinary(bytes);
         let len: number = strEncoded.length;
         let index: number = 0;
@@ -71,9 +70,8 @@ namespace Crypto {
             radio.sendString(s);
         }
         len = strEncoded.length;
-        if (typeisstring == false) 
-        {
-            len+=10000;
+        if (typeisstring == false) {
+            len += 10000;
         }
 
         radio.sendNumber(len); //end of message
@@ -94,8 +92,7 @@ namespace Crypto {
      */
     //% weight=2
     //% blockId=symcrypto_sendbytes block="sends the message  %msg"
-    export function sendBytes(bytes: number[]): void 
-    {
+    export function sendBytes(bytes: number[]): void {
         internal_sendBytes(bytes, false);
     }
 
@@ -103,28 +100,38 @@ namespace Crypto {
 
 
     function proccessReceivedPacket(packet: radio.Packet): void {
+        let sender: number = packet.serial;
         let s: string = packet.receivedString;
+        let sm:SenderAndMessage=receivedMessages.find(function (value: SenderAndMessage, index: number) {
+            if(value.sender==sender)
+            return true;
+            return false;
+        })
+        if(!sm)
+        {
+            sm=new SenderAndMessage;
+            sm.sender=sender;
+            sm.msg="";
+            receivedMessages.push(sm);
+        }
         if (s.length > 0) {
-            lastMsg += s;
+            sm.msg += s;
             return;
         }
         let n: number = packet.receivedNumber;
-        if (n > 0) 
-        {
-            let bIsBytes:boolean=false;
-            if(n>=10000)
-                {
-                    bIsBytes=true;
-                    n-=10000;
-                }
-            if (n == lastMsg.length)
-             {
-                let bytes: number[] = decodeBinary(lastMsg);
+        if (n > 0) {
+            let bIsBytes: boolean = false;
+            if (n >= 10000) {
+                bIsBytes = true;
+                n -= 10000;
+            }
+            if (n == sm.msg.length) {
+                let bytes: number[] = decodeBinary(sm.msg);
                 let args: onReceivedMessageArguments = new onReceivedMessageArguments;
-                if (bIsBytes==false) //it is a string
+                if (bIsBytes == false) //it is a string
                 {
-                    lastMsg = UTF8toStr(bytes);
-                    args.receivedMsg = lastMsg;
+                    sm.msg = UTF8toStr(bytes);
+                    args.receivedMsg = sm.msg;
                     if (onReceivedMessageHandler) {
                         onReceivedMessageHandler(args);
                     }
@@ -137,7 +144,7 @@ namespace Crypto {
                     }
                 }
             }
-            lastMsg = "";
+            sm.msg = "";
         }
     }
 
@@ -185,33 +192,27 @@ namespace Crypto {
     function encodeBinary(bytes: number[]): string {
         let s: string = "";
         let i: number = 0;
-        for (i = 0; i < bytes.length; i++) 
-        {
-            let b:number=bytes[i]
-            if(b<3 )
-            { // encode 0 --> 2 2 ; 1 --> 2 2; 2 --> 2 3
+        for (i = 0; i < bytes.length; i++) {
+            let b: number = bytes[i]
+            if (b < 3) { // encode 0 --> 2 2 ; 1 --> 2 2; 2 --> 2 3
                 s += String.fromCharCode(2);
-                s += String.fromCharCode(b+2);
+                s += String.fromCharCode(b + 2);
             }
-            else
-            {
+            else {
                 s += String.fromCharCode(b);
             }
         }
         return s;
     }
 
-    function decodeBinary(str: string): number[] 
-    {
+    function decodeBinary(str: string): number[] {
         let s: string = "";
         let i: number = 0;
         let bytes: number[] = [];
-        while (i < str.length) 
-        {
+        while (i < str.length) {
             let b: number = str.charCodeAt(i++);
-            if(b==2)
-            {
-                b = str.charCodeAt(i++)-2;
+            if (b == 2) {
+                b = str.charCodeAt(i++) - 2;
             }
             bytes.push(b);
         }
@@ -271,6 +272,11 @@ namespace Crypto {
         return utf8;
     }
 
+    class SenderAndMessage
+    {
+        sender:number;
+        msg:string;
+    }
 
 
 }
