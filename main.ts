@@ -222,7 +222,7 @@ namespace Crypto {
             }
 
         }
-        
+
         return str;
     }
 
@@ -254,5 +254,5 @@ namespace Crypto {
     }
 
 
-    
+
 }
