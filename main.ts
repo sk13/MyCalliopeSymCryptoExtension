@@ -188,14 +188,14 @@ namespace Crypto {
         for (i = 0; i < bytes.length; i++) 
         {
             let b:number=bytes[i]
-            if(b<2 )
-            { // encode 0 --> 1 1 ; 1 --> 1 2
-                s += String.fromCharCode(1);
-                s += String.fromCharCode(b+1);
+            if(b<3 )
+            { // encode 0 --> 2 2 ; 1 --> 2 2; 2 --> 2 3
+                s += String.fromCharCode(2);
+                s += String.fromCharCode(b+2);
             }
             else
             {
-                s += String.fromCharCode(bytes[i]);
+                s += String.fromCharCode(b);
             }
         }
         return s;
@@ -209,9 +209,9 @@ namespace Crypto {
         while (i < str.length) 
         {
             let b: number = str.charCodeAt(i++);
-            if(b==1)
+            if(b==2)
             {
-                b = str.charCodeAt(i++)-1;
+                b = str.charCodeAt(i++)-2;
             }
             bytes.push(b);
         }
