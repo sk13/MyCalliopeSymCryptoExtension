@@ -40,7 +40,7 @@ namespace Crypto {
         export function decrypt(c: string = "", key: string = ""): string {
             let keyb: number[] = strToUTF8(key);
             let keylen = keyb.length;
-            //        let outp:number[]=[];
+            let outp:number[]=[];
             let outstr: string = "";
             let i: number;
 
@@ -49,8 +49,9 @@ namespace Crypto {
                 let p:number;
                 p = cc - keyb[i % keylen] + 256; //ensure p>0;
                 p %= 256;
-                outstr += String.fromCharCode(p);
+                outp.push(p);
             }
+            outstr=UTF8toStr(outp);
             return outstr;
     }
 
