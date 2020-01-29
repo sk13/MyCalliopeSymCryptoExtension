@@ -7,27 +7,29 @@
 //% advanced=true
 namespace Crypto {
     let onReceivedMessageHandler: (args: onReceivedMessageArguments) => void;
+    let onReceivedBytesHandler: (args: onReceivedMessageArguments) => void;
     let lastMsg: string = "";
     /**
         * Encrypt a message with the given key.
         */
     //% weight=1
     //% blockId=symcrypto_encrypt block="encrypts the message  %msg| with key %key"
-    export function encrypt(msg: string = "", key: string = ""): string {
+    export function encrypt(msg: string = "", key: string = ""): numbers[] {
         let inp: number[] = strToUTF8(msg);
         let keyb: number[] = strToUTF8(key);
         let keylen = keyb.length;
-        //        let outp:number[]=[];
-        let outstr: string = "";
+        let outp:number[]=[];
+        //let outstr: string = "";
         let i: number;
 
         for (i = 0; i < inp.length; i++) {
             let c: number;
             c = inp[i] + keyb[i % keylen];
             c %= 256;
-            outstr += String.fromCharCode(c);
+            outp[i]=c;
+//            outstr += String.fromCharCode(c);
         }
-        return outstr;
+        return outp;
     }
 
     /**
@@ -35,7 +37,8 @@ namespace Crypto {
          */
     //% weight=2
     //% blockId=symcrypto_decrypt block="decrypts the ciphertext  %c| with key %key"
-    export function decrypt(c: string = "", key: string = ""): string {
+    export function decrypt(c: number[], key: string = ""): string
+     {
         let keyb: number[] = strToUTF8(key);
         let keylen = keyb.length;
         let outp: number[] = [];
@@ -43,7 +46,7 @@ namespace Crypto {
         let i: number;
 
         for (i = 0; i < c.length; i++) {
-            let cc: number = c.charCodeAt(i);
+            let cc: number = c[i];
             let p: number;
             p = cc - keyb[i % keylen] + 256; //ensure p>0;
             p %= 256;
@@ -79,6 +82,29 @@ namespace Crypto {
 
     }
 
+    /**
+     * Send some bytes (up to 2413 bytes).
+     */
+    //% weight=2
+    //% blockId=symcrypto_sendbytes block="sends the message  %msg"
+    export function sendBytes(bytes: number[]): void {
+        let strEncoded: string = String.fromCharCode(0)+encodeBinary(bytes);
+        let len: number = strEncoded.length;
+        let index: number = 0;
+        while (len > 10) {
+            let s: string = strEncoded.substr(index, 10);
+            radio.sendString(s);
+            len -= 10;
+            index += 10;
+        }
+
+        if (len > 0) {
+            let s: string = strEncoded.substr(index);
+            radio.sendString(s);
+        }
+        radio.sendNumber(strEncoded.length); //end of message
+    }
+
 
 
 
@@ -92,12 +118,22 @@ namespace Crypto {
         if (n > 0) {
             if (n == lastMsg.length) {
                 let bytes: number[] = decodeBinary(lastMsg);
-                lastMsg = UTF8toStr(bytes);
                 let args: onReceivedMessageArguments = new onReceivedMessageArguments;
-                args.receivedMsg = lastMsg;
-                if (onReceivedMessageHandler) {
-                    onReceivedMessageHandler(args);
-                }
+                if(bytes[0]!=0) //it is a string
+                    {
+                        lastMsg = UTF8toStr(bytes);
+                        args.receivedMsg = lastMsg;
+                        if (onReceivedMessageHandler) {
+                            onReceivedMessageHandler(args);
+                        }
+                    }
+                else //they are bytes
+                {
+                    args.receivedBytes= bytes;
+                    if (onReceivedBytesHandler) {
+                        onReceivedBytesHandler(args);
+
+                }    
             }
             lastMsg = "";
         }
@@ -133,7 +169,7 @@ namespace Crypto {
     // draggableParameters=reporter
     export function onReceivedBytes(cb: (args: onReceivedMessageArguments) => void): void {
         radio.onDataPacketReceived(proccessReceivedPacket);
-        onReceivedMessageHandler = cb;
+        onReceivedBytesHandler = cb;
     }
 
 
