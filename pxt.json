@@ -9,7 +9,8 @@
     },
     "files": [
         "README.md",
-        "main.ts"
+        "main.ts",
+        "main.cpp
     ],
     "public": true,
     "preferredEditor": "tsprj",
