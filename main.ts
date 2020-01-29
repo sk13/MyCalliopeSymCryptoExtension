@@ -6,9 +6,43 @@
 //% weight=2 color=#f2c10d icon="\uf21b"
 //% advanced=true
 namespace Crypto {
+
+
+    class KeyValue {
+        key: number;
+        value: string;
+    }
+
+    class KeyValueStore {
+        m_Store: Array<KeyValue>
+        constructor()
+        {
+            this.m_Store= [];
+        }
+        put(key: number, value: string): void {
+            let kv = new KeyValue;
+            kv.key = key;
+            kv.value = value;
+            this.m_Store.push(kv);
+        }
+
+        getKeyValue(key: number): KeyValue {
+            let i: number;
+            for (i = 0; i < this.m_Store.length; i++) {
+                if (this.m_Store[i].key == key) {
+                    return this.m_Store[i];
+                }
+            }
+            return null;
+        }
+    }
+
+
+
+
     let onReceivedMessageHandler: (args: onReceivedMessageArguments) => void;
     let onReceivedBytesHandler: (args: onReceivedMessageArguments) => void;
-    let receivedMessages:Array<SenderAndMessage> =[];
+    let receivedMessages:KeyValueStore=new KeyValueStore();
     /**
         * Encrypt a message with the given key.
         */
@@ -102,20 +136,13 @@ namespace Crypto {
     function proccessReceivedPacket(packet: radio.Packet): void {
         let sender: number = packet.serial;
         let s: string = packet.receivedString;
-        let sm:SenderAndMessage=receivedMessages.find(function (value: SenderAndMessage, index: number) {
-            if(value.sender==sender)
-            return true;
-            return false;
-        })
+        let sm:KeyValue=receivedMessages.getKeyValue(sender);
         if(!sm)
         {
-            sm=new SenderAndMessage;
-            sm.sender=sender;
-            sm.msg="";
-            receivedMessages.push(sm);
+            receivedMessages.put(sender,"");
         }
         if (s.length > 0) {
-            sm.msg += s;
+            sm.value += s;
             return;
         }
         let n: number = packet.receivedNumber;
@@ -125,13 +152,12 @@ namespace Crypto {
                 bIsBytes = true;
                 n -= 10000;
             }
-            if (n == sm.msg.length) {
-                let bytes: number[] = decodeBinary(sm.msg);
+            if (n == sm.value.length) {
+                let bytes: number[] = decodeBinary(sm.value);
                 let args: onReceivedMessageArguments = new onReceivedMessageArguments;
                 if (bIsBytes == false) //it is a string
                 {
-                    sm.msg = UTF8toStr(bytes);
-                    args.receivedMsg = sm.msg;
+                    args.receivedMsg = UTF8toStr(bytes);
                     if (onReceivedMessageHandler) {
                         onReceivedMessageHandler(args);
                     }
@@ -144,7 +170,7 @@ namespace Crypto {
                     }
                 }
             }
-            sm.msg = "";
+            sm.value = "";
         }
     }
 
@@ -272,11 +298,6 @@ namespace Crypto {
         return utf8;
     }
 
-    class SenderAndMessage
-    {
-        sender:number;
-        msg:string;
-    }
-
+ 
 
 }
