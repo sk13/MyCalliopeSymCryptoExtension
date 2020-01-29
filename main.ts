@@ -13,9 +13,45 @@ namespace Crypto {
         */
     //% weight=1
     //% blockId=symcrypto_encrypt block="encrypts the message  %msg| with key %key"
-    export function encrypt(msg: string = "", key: string = ""): string {
+    export function encrypt(msg: string = "", key: string = ""): string 
+    {
+        let inp:number[]=strToUTF8(msg);
+        let keyb: number[] = strToUTF8(key);
+        let keylen=keyb.length;
+//        let outp:number[]=[];
+        let outstr:string="";
+        let i:number;
 
-        return "hello world!";
+        for(i=0;i<inp.length;i++)
+        {
+            let c:number;
+            c=inp[i]+keyb[i%keylen];
+            c%=256;
+            outstr+=String.fromCharCode(c);
+        }
+        return outstr;
+    }
+
+        /**
+             * Decrypt a ciphertext with the given key.
+             */
+        //% weight=2
+        //% blockId=symcrypto_decrypt block="decrypts the ciphertext  %c| with key %key"
+        export function decrypt(c: string = "", key: string = ""): string {
+            let keyb: number[] = strToUTF8(key);
+            let keylen = keyb.length;
+            //        let outp:number[]=[];
+            let outstr: string = "";
+            let i: number;
+
+            for (i = 0; i < c.length; i++) {
+                let cc: number=c.charCodeAt(i);
+                let p:number;
+                p = cc - keyb[i % keylen];
+                p %= 256;
+                outstr += String.fromCharCode(p);
+            }
+            return outstr;
     }
 
 
@@ -54,16 +90,13 @@ namespace Crypto {
             return;
         }
         let n: number = packet.receivedNumber;
-        if (n > 0) 
-        {
-            if (n == lastMsg.length) 
-            {
+        if (n > 0) {
+            if (n == lastMsg.length) {
                 let bytes: number[] = decodeBinary(lastMsg);
                 lastMsg = UTF8toStr(bytes);
-                let args: onReceivedMessageArguments =new onReceivedMessageArguments;
+                let args: onReceivedMessageArguments = new onReceivedMessageArguments;
                 args.receivedMsg = lastMsg;
-                if (onReceivedMessageHandler) 
-                {
+                if (onReceivedMessageHandler) {
                     onReceivedMessageHandler(args);
                 }
             }
