@@ -10,7 +10,7 @@
     "files": [
         "README.md",
         "main.ts",
-        "main.cpp
+        "main.cpp"
     ],
     "public": true,
     "preferredEditor": "tsprj",
