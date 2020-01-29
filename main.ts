@@ -89,7 +89,7 @@ namespace Crypto {
         return outstr;
     }
 
-    function internal_sendString(str: String, typeisstring: boolean) 
+    function internal_sendString(str: string, typeisstring: boolean) 
     {
         let len: number = str.length;
         let index: number = 0;
