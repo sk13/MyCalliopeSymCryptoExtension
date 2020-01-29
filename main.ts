@@ -58,10 +58,6 @@ namespace Crypto {
     function internal_sendBytes(bytes: number[], typeisstring: boolean) 
     {
         let strEncoded: string = encodeBinary(bytes);
-        if (typeisstring==false)
-            {
-                strEncoded = String.fromCharCode(0) + strEncoded;
-            }
         let len: number = strEncoded.length;
         let index: number = 0;
         while (len > 10) {
@@ -74,7 +70,13 @@ namespace Crypto {
             let s: string = strEncoded.substr(index);
             radio.sendString(s);
         }
-        radio.sendNumber(strEncoded.length); //end of message
+        len = strEncoded.length;
+        if (typeisstring == false) 
+        {
+            len+=10000;
+        }
+
+        radio.sendNumber(len); //end of message
     }
 
     /**
@@ -107,11 +109,19 @@ namespace Crypto {
             return;
         }
         let n: number = packet.receivedNumber;
-        if (n > 0) {
-            if (n == lastMsg.length) {
+        if (n > 0) 
+        {
+            let bIsBytes:boolean=false;
+            if(n>=10000)
+                {
+                    bIsBytes=true;
+                    n-=10000;
+                }
+            if (n == lastMsg.length)
+             {
                 let bytes: number[] = decodeBinary(lastMsg);
                 let args: onReceivedMessageArguments = new onReceivedMessageArguments;
-                if (bytes[0] != 0) //it is a string
+                if (bIsBytes==false) //it is a string
                 {
                     lastMsg = UTF8toStr(bytes);
                     args.receivedMsg = lastMsg;
@@ -121,7 +131,6 @@ namespace Crypto {
                 }
                 else //they are bytes
                 {
-                    bytes.shift();
                     args.receivedBytes = bytes;
                     if (onReceivedBytesHandler) {
                         onReceivedBytesHandler(args);
