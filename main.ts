@@ -38,9 +38,6 @@ namespace Crypto {
         }
     }
 
-
-
-
     let onReceivedMessageHandler: (args: onReceivedMessageArguments) => void;
     let onReceivedBytesHandler: (args: onReceivedMessageArguments) => void;
     let receivedMessages: KeyValueStore = new KeyValueStore();
@@ -50,7 +47,6 @@ namespace Crypto {
     //% weight=10
     //% blockId=symcrypto_encrypt 
     //% block="encrypt the message  %msg| with key %key"
-    //% block.loc.de="verschlüssele die Nachricht %msg| mit dem Schlüssel %key"
     //% group="Encryption"
     export function encrypt(msg: string = "", key: string = ""): number[] {
         let inp: number[] = strToUTF8(msg);
