@@ -5,7 +5,7 @@
  */
 //% weight=2 color=#f2c10d icon="\uf21b"
 //% advanced=true
-//% groups=['1 Encryption','2 Communication',]
+//% groups=['1  Encryption','2 Communication',]
 namespace Crypto {
 
 
