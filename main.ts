@@ -48,7 +48,9 @@ namespace Crypto {
         * Encrypt a message with the given key.
         */
     //% weight=1
-    //% blockId=symcrypto_encrypt block="encrypts the message  %msg| with key %key"
+    //% blockId=symcrypto_encrypt 
+    //% block="encrypt the message  %msg| with key %key"
+    //% block.loc.de="verschlüssele die Nachricht %msg| mit dem Schlüssel %key"
     //% group="Encryption"
     export function encrypt(msg: string = "", key: string = ""): number[] {
         let inp: number[] = strToUTF8(msg);
@@ -133,7 +135,7 @@ namespace Crypto {
     /**
         * Send a large message (up to 2413 bytes).
         */
-    //% weight=1
+    //% weight=3
     //% blockId=symcrypto_sendmsg block="send the message  |%msg|"
     //% group="Communication"
     export function sendMsg(msg: string = ""): void {
@@ -143,7 +145,7 @@ namespace Crypto {
     /**
      * Send some bytes (up to 2413 bytes).
      */
-    //% weight=2
+    //% weight=4
     //% blockId=symcrypto_sendbytes block="send some bytes  |%bytes|"
     //% group="Communication"
     export function sendBytes(bytes: number[]): void {
@@ -213,6 +215,7 @@ namespace Crypto {
     //% block="on msg received"
     // draggableParameters=reporter
     //% group="Communication"
+    //% weight=5
     export function onReceivedMessage(cb: (args: onReceivedMessageArguments) => void): void {
         radio.onDataPacketReceived(proccessReceivedPacket);
         onReceivedMessageHandler = cb;
@@ -228,6 +231,7 @@ namespace Crypto {
     //% block="on msg received"
     // draggableParameters=reporter
     //% group="Communication"
+    //% weight=6
     export function onReceivedBytes(cb: (args: onReceivedMessageArguments) => void): void {
         radio.onDataPacketReceived(proccessReceivedPacket);
         onReceivedBytesHandler = cb;
