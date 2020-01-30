@@ -1,6 +1,6 @@
 {
     "name": "Crypto",
-    "version": "0.0.73",
+    "version": "0.0.74",
     "description": "A crypto extension.",
     "license": "MIT",
     "dependencies": {
