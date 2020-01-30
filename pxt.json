@@ -11,7 +11,8 @@
         "README.md",
         "shims.d.ts",
         "main.ts",
-        "main.cpp"
+        "main.cpp",
+        "_locales/de/crypto-strings.json"
     ],
     "public": true,
     "preferredEditor": "tsprj",
