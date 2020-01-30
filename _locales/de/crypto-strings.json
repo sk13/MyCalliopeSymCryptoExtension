@@ -1,0 +1,5 @@
+{
+ "crypto.encrypt|block": "verschlüssele die Nachricht %msg| mit dem Schlüssel %key",
+   "crypto|block": "Kryptographie",
+  "{id:category}Crypto": "Kryptographie"
+}
