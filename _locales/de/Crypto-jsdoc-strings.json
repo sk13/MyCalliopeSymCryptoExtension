@@ -1,0 +1,4 @@
+{
+  "Crypto": "Daten und Nachrichten verschlüsseln und mithilfe von Funk-Paketen übertragen",
+  "Crypto.encrypt": "Verschlüsselt die angegebene Nachricht mit dem angegebenen Schlüssel. Das Ergbnis ist eine Menge von Bytes, die beispielsweise mittels Funk übertragen werden können."
+}
