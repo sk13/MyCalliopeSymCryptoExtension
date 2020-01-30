@@ -12,7 +12,8 @@
         "shims.d.ts",
         "main.ts",
         "main.cpp",
-        "_locales/de/Crypto-strings.json"
+        "_locales/de/Crypto-strings.json",
+        "_locales/de/Crypto-jsdoc-strings.json
     ],
     "public": true,
     "preferredEditor": "tsprj",
