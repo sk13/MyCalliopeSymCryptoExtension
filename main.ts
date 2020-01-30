@@ -5,6 +5,7 @@
  */
 //% weight=2 color=#f2c10d icon="\uf21b"
 //% advanced=true
+//% groups=['Encryption', 'Communication']
 namespace Crypto {
 
 
@@ -48,6 +49,7 @@ namespace Crypto {
         */
     //% weight=1
     //% blockId=symcrypto_encrypt block="encrypts the message  %msg| with key %key"
+    //% group="Encryption"
     export function encrypt(msg: string = "", key: string = ""): number[] {
         let inp: number[] = strToUTF8(msg);
         let keyb: number[] = strToUTF8(key);
@@ -71,6 +73,7 @@ namespace Crypto {
          */
     //% weight=2
     //% blockId=symcrypto_decrypt block="decrypts the ciphertext  %c| with key %key"
+    //% group="Encryption"
     export function decrypt(c: number[], key: string = ""): string {
         let keyb: number[] = strToUTF8(key);
         let keylen = keyb.length;
@@ -89,10 +92,26 @@ namespace Crypto {
         return outstr;
     }
 
-    function internal_sendString(str: string, typeisstring: boolean) 
-    {
+    function internal_sendString(str: string, typeisstring: boolean) {
         let len: number = str.length;
         let index: number = 0;
+
+        let s: string = "";
+        let space = 19;
+        while (len > 0) {
+            if (space > 1) {
+                s += str.charAt(index);
+                if (str.charCodeAt(index) > 127) {
+                    space -= 2
+                }
+                else {
+                    space -= 1;
+                }
+                index++;
+                len--;
+            }
+        }
+
         while (len > 10) {
             let s: string = str.substr(index, 10);
             radio.sendString(s);
@@ -115,8 +134,9 @@ namespace Crypto {
         * Send a large message (up to 2413 bytes).
         */
     //% weight=1
-    //% blockId=symcrypto_sendmsg block="sends the message  %msg"
-    export function sendMsg(msg: string = ""): void {       
+    //% blockId=symcrypto_sendmsg block="send the message  |%msg|"
+    //% group="Communication"
+    export function sendMsg(msg: string = ""): void {
         internal_sendString(msg, true);
     }
 
@@ -124,7 +144,8 @@ namespace Crypto {
      * Send some bytes (up to 2413 bytes).
      */
     //% weight=2
-    //% blockId=symcrypto_sendbytes block="sends the message  %msg"
+    //% blockId=symcrypto_sendbytes block="send some bytes  |%bytes|"
+    //% group="Communication"
     export function sendBytes(bytes: number[]): void {
         let strEncoded: string = encodeBinary(bytes);
         internal_sendString(strEncoded, false);
@@ -135,14 +156,14 @@ namespace Crypto {
 
     function proccessReceivedPacket(packet: radio.Packet): void {
         let sender: number = packet.serial;
-        if(sender==0)//no sender given --> ignore...
+        if (sender == 0)//no sender given --> ignore...
         {
             return;
         }
         let s: string = packet.receivedString;
         let sm: KeyValue = receivedMessages.getKeyValue(sender);
         if (!sm) {
-            sm=receivedMessages.put(sender, "");
+            sm = receivedMessages.put(sender, "");
         }
         if (s.length > 0) {
             sm.value += s;
@@ -183,7 +204,7 @@ namespace Crypto {
     }
 
     /**
-       * Registers code to run when we received a large string.
+       * Registers code to run after a message was received.
        */
     //% mutate=objectdestructuring
     //% mutateText="My Arguments"
@@ -191,13 +212,14 @@ namespace Crypto {
     //% blockId=crypto_on_receive_str 
     //% block="on msg received"
     // draggableParameters=reporter
+    //% group="Communication"
     export function onReceivedMessage(cb: (args: onReceivedMessageArguments) => void): void {
         radio.onDataPacketReceived(proccessReceivedPacket);
         onReceivedMessageHandler = cb;
     }
 
     /**
-       * Registers code to run when we received bytes.
+       * Registers code to run after some bytes were received.
        */
     //% mutate=objectdestructuring
     //% mutateText="My Arguments"
@@ -205,6 +227,7 @@ namespace Crypto {
     //% blockId=crypto_on_receive_bytes
     //% block="on msg received"
     // draggableParameters=reporter
+    //% group="Communication"
     export function onReceivedBytes(cb: (args: onReceivedMessageArguments) => void): void {
         radio.onDataPacketReceived(proccessReceivedPacket);
         onReceivedBytesHandler = cb;
