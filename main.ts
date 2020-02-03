@@ -92,6 +92,8 @@ namespace Crypto {
     }
 
     function internal_sendString(str: string, typeisstring: boolean) {
+        if (!str)
+            return;
         let len: number = str.length;
         let index: number = 0;
 
@@ -109,23 +111,21 @@ namespace Crypto {
                 index++;
                 len--;
             }
-            else if (space == 1 && str.charCodeAt(index)<128)
-            {
+            else if (space == 1 && str.charCodeAt(index) < 128) {
                 s += str.charAt(index);
                 space--;
                 index++;
                 len--;
             }
-            else
-            {
+            else {
                 radio.sendString(s);
-                space=19;
-                s="";
+                space = 19;
+                s = "";
             }
         }
-        if(s.length>0) //send remaining part...
+        if (s.length > 0) //send remaining part...
         {
-            radio.sendString(s);            
+            radio.sendString(s);
         }
         len = str.length;
         if (typeisstring == false) {

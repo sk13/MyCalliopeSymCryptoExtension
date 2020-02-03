@@ -3,5 +3,6 @@
   "Crypto.encrypt": "Verschlüsselt die angegebene Nachricht mit dem angegebenen Schlüssel. Das Ergebnis ist eine Menge von Bytes, die beispielsweise mittels Funk übertragen werden können.",
   "Crypto.decrypt": "Entschlüsselt die angegebenen Geheimtext-Bytes mit dem angegebenen Schlüssel. Das Ergebnis ist die entschlüsselte Nachricht.",
    "Crypto.sendMsg": "Sendet eine Nachricht über Funk. Die Nachricht kann dabei bis zu 2000 Zeicehn lang sein.",
+"Crypto.sendBytes": "Sendet eine Menge von bis zu 2000 Bytes über Funk",
 "Crypto.onReceivedMessage": "Registriert eine Funktion, die ausgeführt wird, nachdem eine Nachricht empfangen wurde."
 }
