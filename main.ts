@@ -181,18 +181,18 @@ namespace Crypto {
                 bIsBytes = true;
                 n -= 10000;
             }
-            if (n == sm.value.length) {
-                let bytes: number[] = decodeBinary(sm.value);
+            if (n == sm.value.length) {                
                 let args: onReceivedMessageArguments = new onReceivedMessageArguments;
                 if (bIsBytes == false) //it is a string
                 {
-                    args.receivedMsg = UTF8toStr(bytes);
+                    args.receivedMsg=sm.value;
                     if (onReceivedMessageHandler) {
                         onReceivedMessageHandler(args);
                     }
                 }
                 else //they are bytes
                 {
+                    let bytes: number[] = decodeBinary(sm.value);
                     args.receivedBytes = bytes;
                     if (onReceivedBytesHandler) {
                         onReceivedBytesHandler(args);
