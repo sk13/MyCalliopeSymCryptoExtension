@@ -3,7 +3,7 @@
     "Crypto.decrypt|block": "entschlüssele die Geheimtext-Bytes %c| mit dem Schlüssel %key",
     "Crypto.sendMsg|block": "sende die (ggf. lange) Nachricht %msg",
     "Crypto.sendBytes|block": "sende die Bytes %bytes",
-    "Crypto.onReceivedMessage": "wenn Nachricht %receivedMsg empfangen",
+    "Crypto.onReceivedMessage|block": "wenn Nachricht %receivedMsg empfangen",
     "Crypto|block": "Kryptographie",
     "{id:category}Crypto": "Kryptographie"
 }

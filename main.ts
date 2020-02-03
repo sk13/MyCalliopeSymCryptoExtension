@@ -155,8 +155,29 @@ namespace Crypto {
         let strEncoded: string = encodeBinary(bytes);
         internal_sendString(strEncoded, false);
     }
-
-
+/**
+     * Reads a (possibly long) line (terminate by a Line Feed (Code: 10)) from serial.
+     */
+    //% weight=11
+    //% blockId=symcrypto_readlinefromserial 
+    //% block="read a line from serial"
+    //% group="Serial"
+   export function readLineFromSerial():string
+   {
+       let s:string="";
+       while (true) 
+        {
+           let k:string = serial.readString()
+           if (k.length > 0) {
+               s += k
+               if (k.substr(-1).charCodeAt(0) === 10) 
+               {
+                   break;
+               }
+           }
+       }
+       return s.substr(0, s.length - 1);
+   }
 
 
     function proccessReceivedPacket(packet: radio.Packet): void {
@@ -181,7 +202,7 @@ namespace Crypto {
                 bIsBytes = true;
                 n -= 10000;
             }
-            if (n == sm.value.length) {                
+            if (n === sm.value.length) {                
                 let args: onReceivedMessageArguments = new onReceivedMessageArguments;
                 if (bIsBytes == false) //it is a string
                 {
