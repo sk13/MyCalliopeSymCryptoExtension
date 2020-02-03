@@ -70,7 +70,8 @@ namespace Crypto {
          * Decrypt a ciphertext with the given key.
          */
     //% weight=9
-    //% blockId=symcrypto_decrypt block="decrypts the ciphertext  %c| with key %key"
+    //% blockId=symcrypto_decrypt 
+    //% block="decrypts the ciphertext  %c| with key %key"
     //% group="Encryption"
     export function decrypt(c: number[], key: string = ""): string {
         let keyb: number[] = strToUTF8(key);
@@ -108,17 +109,23 @@ namespace Crypto {
                 index++;
                 len--;
             }
+            else if (space == 1 && str.charCodeAt(index)<128)
+            {
+                s += str.charAt(index);
+                space--;
+                index++;
+                len--;
+            }
+            else
+            {
+                radio.sendString(s);
+                space=19;
+                s="";
+            }
         }
-
-        while (len > 10) {
-            let s: string = str.substr(index, 10);
-            radio.sendString(s);
-            len -= 10;
-            index += 10;
-        }
-        if (len > 0) {
-            let s: string = str.substr(index);
-            radio.sendString(s);
+        if(s.length>0) //send remaining part...
+        {
+            radio.sendString(s);            
         }
         len = str.length;
         if (typeisstring == false) {
@@ -132,7 +139,7 @@ namespace Crypto {
         * Send a large message (up to 2413 bytes).
         */
     //% weight=8
-    //% blockId=symcrypto_sendmsg block="send the message  |%msg|"
+    //% blockId=symcrypto_sendmsg block="send the message |%msg|"
     //% group="Communication"
     export function sendMsg(msg: string = ""): void {
         internal_sendString(msg, true);
