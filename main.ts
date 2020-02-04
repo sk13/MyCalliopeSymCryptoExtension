@@ -162,7 +162,7 @@ namespace Crypto {
     //% blockId=symcrypto_readlinefromserial 
     //% block="read a line from serial"
     //% group="Serial"
-    export function readLineFromSerial(): string {
+   /* export function readLineFromSerial(): string {
         let s: string = "";
         while (true) {
             let k: string = serial.readString()
@@ -175,7 +175,7 @@ namespace Crypto {
         }
         return s.substr(0, s.length - 1);
     }
-
+*/
 
     function proccessReceivedPacket(packet: radio.Packet): void {
         let sender: number = packet.serial;
@@ -201,7 +201,7 @@ namespace Crypto {
             }
             if (n === sm.value.length) {
                 let args: onReceivedMessageArguments = new onReceivedMessageArguments;
-                if (bIsBytes == false) //it is a string
+                if (bIsBytes === false) //it is a string
                 {
                     args.receivedMsg = sm.value;
                     if (onReceivedMessageHandler) {
@@ -350,14 +350,14 @@ namespace Crypto {
     }
 
 
-    
+
 
 
 }
-
+/*
 namespace pxsim.Crypto {
     export function getRxBufferSize(): number {
         return 0;
     }
 }
-
+*/
