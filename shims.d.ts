@@ -11,7 +11,7 @@ declare namespace Crypto {
     /**
      * Broadcasts a number over radio to any connected micro:bit in the group.
      */
-    //% shim=Crypto::getRxBufferSize
+    //% blockId=serial_getrxbuffersize shim=Crypto::getRxBufferSize
     function getRxBufferSize(): int32;
 }
 
