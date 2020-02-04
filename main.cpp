@@ -23,8 +23,7 @@ void setRxBufferSize(int i)
 /**
      * Broadcasts a number over radio to any connected micro:bit in the group.
      */
-    
-    
+     //%
 int getRxBufferSize()
 {
     return uBit.serial.getRxBufferSize();

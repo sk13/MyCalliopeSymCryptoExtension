@@ -350,13 +350,13 @@ namespace Crypto {
     }
 
 
-/**
-     * Broadcasts a number over radio to any connected micro:bit in the group.
-     */
+    /**
+         * Broadcasts a number over radio to any connected micro:bit in the group.
+         */
     //% weight=60
-    //% blockId=serial_getrxbuffersize shim=Crypto::getRxBufferSize
-    export function getRxBufferSize(): number
-    {
+    //% blockId=serial_getrxbuffersize 
+    //% shim=Crypto::getRxBufferSize
+    function getRxBufferSize(): int32 {
         return 0;
     }
 
